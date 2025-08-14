@@ -1,0 +1,51 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+
+# Model files
+*.pth
+*.pt
+*.ckpt
+
+# Experiment results
+**results/
+**logs/
+
+# Jupyter notebook output
+*.nbconvert.ipynb
+
+# Large files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.hdf5
+
+# experiment results
+**results/
+experiments/
+**logs/
+
+# IDE specific
+.vscode/
+.cursor/
+.roo/
+
+# scratch notebooks
+*.ipynb
+
+# figures
+figures/
+*.png
+
+# shell scripts
+*.sh

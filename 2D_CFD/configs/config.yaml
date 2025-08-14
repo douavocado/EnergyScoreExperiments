@@ -1,0 +1,63 @@
+# Configuration for ConvCNP Sampler with CRPS loss
+
+# data
+data:
+  file_path: "data/2D_CFD_rand_Eta1e-08_Zeta1e-08_M0.1_periodic_Train_16.hdf5"
+  input_vars: ["Vx", "Vy", "density", "pressure"]
+  output_vars: ["pressure"]
+  time_skip: 5  # Predict t+1 given t
+  train_ratio: 0.7
+  val_ratio: 0.15
+  random_seed: 42
+
+# model
+model:
+  type: "ConvCNPSampler"
+  spatial_size: 16
+  hidden_size: 64  # CNN hidden channels
+  latent_dim: 16
+  n_layers: 4  # no. ResNet blocks
+  dropout_rate: 0.0
+  grid_size: 16  # internal grid size for ConvCNP
+  length_scale: 0.1  # RBF kernel length scale
+  use_batch_norm: true
+
+# training
+training:
+  loss: "crps" 
+  n_samples: 10  # no. samples for loss calculation
+  batch_size: 32
+  learning_rate: 0.001
+  num_epochs: 100
+  weight_decay: 0.0001
+  scheduler:
+    type: "cosine"
+    warmup_epochs: 5
+  early_stopping:
+    patience: 3
+    min_delta: 0.0001
+  
+  progressive_sampling:
+    enabled: false
+    initial_samples: 10
+    max_samples: 50
+    increase_factor: 1.5
+    patience: 5
+    min_delta: 0.0001
+    mode: "patience"
+
+# evaluation
+evaluation:
+  metrics: ["crps", "energy_score"]  # metrics to compute on test set
+  n_samples: 50  # no. samples for evaluation
+  eval_every: 5  # evaluate every 5 epochs
+
+# logging
+logging:
+  save_dir: "experiments/crps_uni"
+  save_every: 10  # save checkpoint every N epochs
+  log_every: 1  # log metrics every N epochs
+  wandb:
+    enabled: false
+    project: "2D_CFD_prediction"
+    name: "convcnp_crps_pressure_univariate"

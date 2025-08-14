@@ -1,0 +1,64 @@
+experiment_name: demo_discrimination
+seed: 123
+
+# Base marginal (1D) and parameters (optional)
+base_distribution: gaussian
+base_params:
+  lambda: 1.0
+
+
+# Sample sizes and dimension
+dimension: 200
+n_observed_samples: 2000
+n_forecast_samples: 2000
+
+perturbation:
+  method: copula  # 'copula' or 'common_shock' or 'linear_mixing'
+  type: gaussian  # if method=copula: 'gaussian' or 'clayton'
+  
+  
+  gaussian:
+    structure: ar1  # equi | ar1 | block | full
+    rho: 0.9
+  # clayton:
+  #   tau: 0.4  # alternatively: theta: 1.5
+  # For common_shock, uncomment below:
+  # method: common_shock
+  rho: 0.9
+  preserve_variance: true
+
+# Optional mean perturbation added after dependence is introduced
+mean_perturbation:
+  enabled: false
+  magnitude: 3.0  # e.g., 0.5
+
+evaluation:
+  # metrics: [crps, energy, fixed_projected_es, mean_separated_proj_loss, optimal_proj_loss]
+  metrics: [crps, energy, multivariate_proj_loss, fixed_projected_es, mean_separated_proj_loss, optimal_proj_loss]
+  metric_params:
+    energy:
+      normalise_by_sqrt_dim: true  # divide ES by sqrt(d)
+
+    crps:
+      normalise_by_dim: true       # divide CRPS sum by d
+
+    variogram:
+      p: 1.0
+    
+    dependence_proj_energy:
+      lambda: 0.0
+    
+    optimal_proj_loss:
+      eta: 0.1
+
+    almost_fair_crps:
+      unbiased_weight: 0.95
+      normalise_by_dim: true       # divide AF-CRPS sum by d
+    
+    multivariate_proj_loss:
+      normalise_by_dim: true       # divide multivariate projection loss by d
+
+ground_truth:
+  n_observed_samples: 1000 # size for each of the two independent samples
+
+
