@@ -39,7 +39,6 @@ python main.py --config configs/example.yaml
 - Implementation of projection-based CRPS variants
 - Evaluation of scoring rule discrimination power
 - Probabilistic forecasting for CFD dynamics
-- Comparison of univariate vs multivariate scoring approaches
 
 ## Requirements
 
